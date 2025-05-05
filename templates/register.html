@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <h1>Register</h1>
+    <a href="{{ url_for('index') }}">Back to Homepage</a>
+    <hr>
+    <form method="POST">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="user_type">User Type:</label><br>
+        <select id="user_type" name="user_type" required>
+            <option value="artist">Artist</option>
+            <option value="enthusiast">Enthusiast</option>
+        </select><br><br>
+
+        <input type="submit" value="Register">
+    </form>
+{% endblock %}

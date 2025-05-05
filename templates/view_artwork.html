@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}{{ artwork.title }} - View Artwork{% endblock %}
+
+{% block content %}
+    <div class="artwork-detail-container">
+        <h2>{{ artwork.title }}</h2>
+        <img src="{{ url_for('static', filename=artwork.image_path) }}" alt="{{ artwork.title }}" width="400">
+        <p>{{ artwork.description }}</p>
+        <p>Uploaded on: {{ artwork.submission_date }}</p>
+
+        <div class="artwork-actions">
+            <p class="like-count" data-artwork-id="{{ artwork.artwork_id }}">Likes: {{ like_count or 0 }}</p>
+            {% if session['user_id'] %}
+                <button class="like-button" data-artwork-id="{{ artwork.artwork_id }}" data-is-liked="{{ 'true' if user_liked else 'false' }}">
+                    <i class="fa-regular fa-thumbs-up {% if user_liked %}liked{% endif %}"></i>
+                </button>
+            {% else %}
+                <p>Please <a href="{{ url_for('login') }}">log in</a> to like this artwork.</p>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <h2>Comments</h2>
+        {% if comments %}
+            <ul class="comment-list">
+                {% for comment in comments %}
+                <li class="comment-item">
+                    <div class="comment-header">
+                        <strong>{{ comment.username }}:</strong>
+                        <em class="comment-timestamp">{{ comment.timestamp }}</em>
+                    </div>
+                    <p class="comment-text">{{ comment.comment }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No comments yet.</p>
+        {% endif %}
+
+        <hr>
+
+        {% if 'user_id' in session %}
+            <form action="{{ url_for('post_comment', artwork_id=artwork.artwork_id) }}" method="POST">
+                <textarea name="comment" required placeholder="Add a comment..." rows="4" cols="50"></textarea><br>
+                <input type="submit" value="Post Comment">
+            </form>
+        {% else %}
+            <p>Please <a href="{{ url_for('login') }}">log in</a> to leave a comment.</p>
+        {% endif %}
+
+        <p><a href="{{ url_for('gallery') }}">Return to Gallery</a></p>
+    </div>
+
+    <script>
+        // Your existing JavaScript remains the same
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeButtons = document.querySelectorAll('.like-button');
+
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    const artworkId = this.dataset.artworkId;
+                    const isLiked = this.dataset.isLiked === 'true';
+                    const likeCountElement = document.querySelector(`.like-count[data-artwork-id="${artworkId}"]`);
+                    const likeIcon = this.querySelector('i'); // Get the icon element
+
+                    fetch(`/like/${artworkId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        // You might need to include a CSRF token here
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            likeCountElement.textContent = `Likes: ${data.like_count}`;
+                            this.dataset.isLiked = isLiked ? 'false' : 'true';
+
+                            // Update the icon and its color
+                            if (this.dataset.isLiked === 'true') {
+                                likeIcon.classList.remove('fa-regular');
+                                likeIcon.classList.add('fa-solid', 'liked');
+                            } else {
+                                likeIcon.classList.remove('fa-solid', 'liked');
+                                likeIcon.classList.add('fa-regular');
+                            }
+                        } else {
+                            alert(data.error || 'An error occurred.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred.');
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

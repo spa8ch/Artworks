@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <header>
+        <h1>Morton Bay Art Society</h1>
+
+        <div class="top-right-greeting">
+            {% if 'user_id' in session %}
+                Hello, {{ session['username'] }}
+            {% endif %}
+        </div>
+
+
+        <nav>
+            <span class="navbar-greeting">
+                {% if 'user_id' in session %}
+                    <a href="{{ url_for('index') }}">Home</a> |
+                    <a href="{{ url_for('gallery') }}">Gallery</a> |
+                    {% if session['user_type'] in ('artist') %}
+                        <a href="{{ url_for('my_uploads') }}">My Uploads</a> |
+                        <a href="{{ url_for('upload') }}">Submit Artwork</a> |
+                    {% endif %}
+                    {% if session['user_type'] == 'admin' %}
+                        <a href="{{ url_for('admin_approve') }}">Admin Approval</a> |
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('index') }}">Home</a> |
+                    <a href="{{ url_for('gallery') }}">Gallery</a> |
+                    <a href="{{ url_for('login') }}">Login</a> |
+                    <a href="{{ url_for('register') }}">Register</a>
+                {% endif %}
+            </span>
+        </nav>
+    </header>
+
+    <hr>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}
+        {% endblock %}
+
+    <hr>
+
+
+    <footer>
+        <p>&copy; 2025 Georgina Web Services</p>
+    </footer>
+
+
+
+</body>
+</html>

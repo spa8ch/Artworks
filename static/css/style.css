@@ -1,0 +1,332 @@
+/* General Body and Typography */
+body {
+    font-family: 'Helvetica', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light gray background */
+    color: #333; /* Dark gray text */
+    line-height: 1.6;
+}
+
+h1 {
+    font-family: 'Georgia', serif; /* Example serif heading font */
+    color: #555;
+    margin-bottom: 15px;
+    text-align: center; /* Center the text horizontally */
+}
+
+
+h2, h3 {
+    font-family: 'Georgia', serif; /* Example serif heading font */
+    color: #555;
+    margin-bottom: 15px;
+    
+}
+
+
+/* Navigation Bar */
+nav {
+    background-color: #333;
+    display: grid;
+    grid-template-columns: auto; /* Let the content determine the width */
+    justify-content: center; /* Center the content */
+    padding: 10px 0;
+}
+
+.navbar-greeting {
+    color: white; /* Or any color you prefer */
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block;
+}
+
+
+.top-right-greeting {
+    position: absolute;
+    top: 10px; /* Adjust vertical position as needed */
+    right: 20px; /* Adjust horizontal position as needed */
+    /* Add any other styling for the greeting */
+    z-index: 10; /* Ensure it's above other elements if needed */
+    text-align: right; /* Align the text within the greeting to the right (optional) */
+}
+
+
+.navbar-greeting a:last-child {
+    margin-right: 0; /* Remove right margin from the last link */
+}
+
+nav a {
+    margin: 0 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+nav .active { /* You'll need to add a class "active" to the current page's link */
+    background-color: #555;
+    font-weight: bold;
+}
+
+/* Artwork Grid (Improvements) */
+.artwork-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.artwork-item {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    overflow: hidden; /* Hide any overflowing content */
+}
+
+.artwork-item:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.artwork-item img {
+    width: 100%;
+    height: 200px; /* Consistent image height */
+    object-fit: cover; /* Crop and scale to fill */
+    border-bottom: 1px solid #eee;
+}
+
+.artwork-item h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+    padding: 0 10px;
+}
+
+.artwork-item p {
+    font-size: 0.9em;
+    color: #666;
+    padding: 0 10px 10px;
+}
+
+/* Buttons */
+input[type="submit"], button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+input[type="submit"]:hover, button:hover {
+    background-color: #333;
+}
+
+/* Form Styling */
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Important: Include padding and border in width */
+}
+
+form input[type="file"] {
+    margin-bottom: 15px;
+}
+
+/* Messages */
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #85640b;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    margin-top: 20px;
+}
+
+.like-button {
+    background-color: #f0f0f0; /* Light grey background */
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust size as needed */
+}
+
+.like-button:hover {
+    background-color: #e0e0e0; /* Darker grey on hover */
+}
+
+
+
+
+
+
+.like-button {
+    background: none; /* Remove default button background */
+    border: none;      /* Remove default button border */
+    padding: 0;       /* Remove default button padding */
+    cursor: pointer;
+    font-size: 1.2em; /* Adjust icon size */
+    outline: none;     /* Remove focus outline */
+    color: #888;      /* Default grey color for not liked */
+}
+
+.like-button:hover {
+    color: #555;      /* Darker grey on hover */
+}
+
+.like-button i.liked {
+    color: green;      /* Green color for liked state */
+}
+
+/* Optional: Style the like count */
+.like-count {
+    margin-right: 10px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.artwork-detail-container {
+    width: 80%; /* Adjust the width as needed */
+    margin: 20px auto; /* Centers the container horizontally and adds top/bottom margin */
+    padding: 20px; /* Optional: Adds some padding inside the container */
+    /* Optional: Add a background color or border for visual separation */
+    /* background-color: #f9f9f9; */
+    /* border: 1px solid #eee; */
+    /* border-radius: 5px; */
+}
+
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comment-item {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Soft shadow */
+    border-left: 5px solid #007bff; /* Accent color on the left */
+}
+
+.comment-header {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.comment-header strong {
+    font-weight: bold;
+    margin-right: auto;
+}
+
+.comment-timestamp {
+    font-size: 0.8em;
+    color: #aaa;
+}
+
+.comment-text {
+    line-height: 1.6;
+    color: #333;
+    margin-top: 10px;
+}
+
+form {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Soft shadow */
+    border-left: 5px solid green; /* Accent color on the left */
+
+}
+
+
+background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Soft shadow */
+    border-left: 5px solid #007bff; /* Accent color on the left */
+
+
+label {
+    display: block; /* Make labels take up the full width */
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="file"],
+textarea {
+    width: 100%; /* Make them fill their parent (the form) */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    font-size: 1em; /* Adjust font size if needed */
+}
+
+textarea {
+    min-height: 100px; /* Set a minimum height for the description box */
+}
+
+input[type="submit"] {
+    background-color: #007bff; /* Example submit button color */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}

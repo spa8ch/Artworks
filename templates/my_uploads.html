@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}My Uploads{% endblock %}
+
+{% block content %}
+    <h1>My Uploads</h1>
+
+    <div class="artwork-grid">
+        {% if artworks %}
+        {% for art in artworks %}
+        <div class="artwork-item">
+            <h3>{{ art.title }}</h3>
+            <p>
+                Status:
+                {% if art.pending %}
+                    <strong class="warning">Pending Approval</strong>
+                {% else %}
+                    <strong class="success">Approved</strong>
+                {% endif %}
+            </p>
+            {% if art.image_path %}
+                <a href="{{ url_for('view_artwork', artwork_id=art.artwork_id) }}">
+                    <img src="{{ url_for('static', filename=art.image_path) }}" alt="{{ art.title }}">
+                </a>
+            {% endif %}
+            <p>{{ art.description }}</p>
+            <p><em>Submitted on: {{ art.submission_date }}</em></p>
+            </div>
+    {% endfor %}
+        {% else %}
+            <p>You haven't uploaded any artworks yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

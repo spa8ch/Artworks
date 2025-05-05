@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Home - Art Gallery{% endblock %}
+
+{% block content %}
+    <h1>Welcome to the Art Gallery</h1>
+
+    <h2>Featured Artworks</h2>
+    <div class="artwork-grid">
+        {% if artworks %}
+            {% for art in artworks %}
+                <div class="artwork-item">
+                    <h3>{{ art.title }}</h3>
+                    <a href="{{ url_for('view_artwork', artwork_id=art.artwork_id) }}">
+                        <img src="{{ url_for('static', filename=art.image_path) }}" alt="{{ art.title }}">
+                    </a>
+                    <p>By: {{ art.artist_name }}</p>
+                    <p>{{ art.description }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No artworks available yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

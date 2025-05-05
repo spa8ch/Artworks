@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Gallery{% endblock %}
+
+{% block content %}
+    <h1>Artwork Gallery</h1>
+
+    <div class="artwork-grid">
+        {% for artwork in artworks %}
+            <div class="artwork-item">
+                <h2>{{ artwork['title'] }}</h2>
+                <a href="{{ url_for('view_artwork', artwork_id=artwork['artwork_id']) }}">
+                    <img src="{{ url_for('static', filename=artwork['image_path']) }}" alt="{{ artwork['title'] }}">
+                </a>
+                <p>{{ artwork['description'] }}</p>
+
+                <div class="artwork-actions">
+                    <p class="like-count" data-artwork-id="{{ artwork['artwork_id'] }}">Likes: {{ artwork['like_count'] or 0 }}</p>
+                    {% if session['user_id'] %}
+                        <button class="like-button" data-artwork-id="{{ artwork['artwork_id'] }}" data-is-liked="{{ 'true' if artwork['is_liked'] else 'false' }}">
+                            <i class="fa-regular fa-thumbs-up {% if artwork['is_liked'] %}liked{% endif %}"></i>
+                        </button>
+                    {% else %}
+                        <p>Please <a href="{{ url_for('login') }}">log in</a> to like this artwork.</p>
+                    {% endif %}
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Your existing JavaScript for like functionality remains the same
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeButtons = document.querySelectorAll('.like-button');
+
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    const artworkId = this.dataset.artworkId;
+                    const isLiked = this.dataset.isLiked === 'true';
+                    const likeCountElement = document.querySelector(`.like-count[data-artwork-id="${artworkId}"]`);
+                    const likeIcon = this.querySelector('i'); // Get the icon element
+
+                    fetch(`/like/${artworkId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        // You might need to include a CSRF token here
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            likeCountElement.textContent = `Likes: ${data.like_count}`;
+                            this.dataset.isLiked = isLiked ? 'false' : 'true';
+
+                            // Update the icon and its color
+                            if (this.dataset.isLiked === 'true') {
+                                likeIcon.classList.remove('fa-regular');
+                                likeIcon.classList.add('fa-solid', 'liked');
+                            } else {
+                                likeIcon.classList.remove('fa-solid', 'liked');
+                                likeIcon.classList.add('fa-regular');
+                            }
+                        } else {
+                            alert(data.error || 'An error occurred.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred.');
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Admin - Approve Artworks{% endblock %}
+
+{% block content %}
+    <h1>Admin Panel - Approve Artworks</h1>
+
+    {% if artworks %}
+        <div class="artwork-grid">
+            {% for artwork in artworks %}
+                <div class="artwork-item">
+                    <h3>{{ artwork.title }}</h3>
+                    <img src="{{ url_for('static', filename=artwork.image_path) }}" alt="{{ artwork.title }}">
+                    <p>{{ artwork.description }}</p>
+                    <form action="{{ url_for('admin_approve') }}" method="POST">
+                        <input type="hidden" name="artwork_id" value="{{ artwork.artwork_id }}">
+                        <button type="submit" name="action" value="approve">Approve</button>
+                        <button type="submit" name="action" value="reject">Reject</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No artworks pending approval.</p>
+    {% endif %}
+{% endblock %}
